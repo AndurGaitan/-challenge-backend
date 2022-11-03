@@ -1,7 +1,14 @@
 [
   {
-    "nombre": "pan",
-    "precio": "dos",
+    "title": "facturas",
+    "price": 100,
+    "thumbnail": "https://www.gatodumas.com.ar/media/k2/items/cache/3b3137a08b8bf22969ae75f6bfeed67f_XL.jpg",
     "id": 1
+  },
+  {
+    "title": "galletas",
+    "price": 200,
+    "thumbnail": "https://t1.rg.ltmcdn.com/es/posts/6/2/9/galletas_con_chispas_de_chocolate_caseras_35926_orig.jpg",
+    "id": 2
   }
 ]

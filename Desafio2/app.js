@@ -89,8 +89,9 @@ async function ejecutar(){
 const c1 = new Contenedor("productos.txt");
 
 let id = await c1.save({title: "galletas", price: 200, thumbnail: "https://t1.rg.ltmcdn.com/es/posts/6/2/9/galletas_con_chispas_de_chocolate_caseras_35926_orig.jpg"})
-// await c1.save({nombre: "pan", precio: "dos"})
-
+await c1.save({title: "tortillas", price: 400, thumbnail: "https://t1.rg.ltmcdn.com/es/posts/6/2/9/galletas_con_chispas_de_chocolate_caseras_35926_orig.jpg"})
+await c1.save({title: "facturas", price: 100, thumbnail: "https://www.gatodumas.com.ar/media/k2/items/cache/3b3137a08b8bf22969ae75f6bfeed67f_XL.jpg"})
+await c1.save({title: "galletas", price: 200, thumbnail: "https://t1.rg.ltmcdn.com/es/posts/6/2/9/galletas_con_chispas_de_chocolate_caseras_35926_orig.jpg"})
 //let info = await c1.getAll()
 
 console.log(await c1.getAll())
