@@ -1,1 +1,7 @@
-[]
+[
+  {
+    "nombre": "pan",
+    "precio": "dos",
+    "id": 1
+  }
+]
