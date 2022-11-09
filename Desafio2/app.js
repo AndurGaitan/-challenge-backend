@@ -1,103 +1,94 @@
 const fs = require('fs')
 
-function generarId(info) {
-    let listaNum = info.map(({ id }) => id)
-    return listaNum.includes(listaNum.length + 1) ? (Math.max(...listaNum) + 1) : (listaNum.length + 1)
+class Contenedor{
+    constructor(file){
+        this.file = file
+    }
+
+    async getAll(){
+        try{
+            const data = await fs.promises.readFile(this.file, 'utf-8')
+            return JSON.parse(data)
+        } catch (error){
+            console.log('Error in function getAll: ', error)
+        }   
+    }
+
+    async save(product){
+        try{
+            const data = await fs.promises.readFile(this.file, 'utf-8')
+            const products = JSON.parse(data)
+            const lastId = products[products.length - 1].id
+            const newProduct = { ...product, id: lastId + 1 }
+            products.push(newProduct)
+            await fs.promises.writeFile(this.file, JSON.stringify(products, null, 2))
+            console.log('A new product is created id: ' + newProduct.id)
+        } catch (error){
+            const newProduct = { ...product, id: 1 }
+            await fs.promises.writeFile(this.file, JSON.stringify([newProduct], null, 2))
+            console.log('A new product is created id: ' + newProduct.id)
+        }
+    }
+
+    async getById(id) {
+        try {
+            const products = await this.getAll()
+            const product = products.find((product) => product.id === id)
+            if (!product) {
+                console.log('null')
+            } else {
+                console.log('Product with id:', id, product)
+            }
+        } catch (error){
+            throw new Error('A product with that id was not found')
+        }
+    }
+
+    async deleteById(id) {
+        try {
+            const products = await this.getAll()
+            const product = products.find((product) => product.id === id)
+            if (!product) {
+                throw new Error('A product with that id was not found')
+            }
+        } catch (error) {
+            console.log('Error in deleteAll: ', error)
+        }
+    }
+
+    async deleteAll() {
+        try {
+            await fs.promises.writeFile(this.file, JSON.stringify([], null, 2))            
+        } catch (error) {
+            console.log('Error in deleteAll: ', error)
+        }
+    }
 }
 
-class Contenedor {
-    constructor(archivo) {
-        this.archivo = archivo;
-    }
+const main = async () => {
+    const contenedor = new Contenedor('productos.txt')
+    await contenedor.save({
+        title: 'Galletas',
+        price: 350.50,
+        thumbnail: ''
+    })
+    await contenedor.save({
+        title: 'Pan',
+        price: 250.50,
+        thumbnail: ''
+    })
+    await contenedor.save({
+        title: 'Tortillas',
+        price: 150.50,
+        thumbnail: ''
+    })    
 
-    async save(producto) {//obj
-        try {
-            let id = await fs.promises.readFile(this.archivo, "utf-8")
-                .then(data => {
-                    if (data == "") {
-                        data = "[]"
-                    }
-                    let info = JSON.parse(data)
-                    producto.id = generarId(info)
-                    info.push(producto)
-                    fs.writeFile(this.archivo, JSON.stringify(info, null, 2), (err) => {
-                        if (err) {
-                            throw new Error(err);
-                        }
-                    })
-                    return producto.id
-                })
-                .then(id => id)
-                .catch()
-            return id
-        } catch (err) {
-            console.log(err);
-        }
-    }
-    async getById(num) {
-        try {
-            let item = await fs.promises.readFile(this.archivo, "utf-8")
-                .then(data => {
-                    let info = JSON.parse(data)
-                    return info.find(producto => producto.id === num)
-                })
-                .then(producto => producto);
-            return item
-        }
-        catch (err) {
-            console.log("error en la lectura del archivo:" + err)
-        }
-    }
+    const id = 3
+    await contenedor.getById(id)
+    const products = await contenedor.getAll()
+    console.log('Array of objects', products)
+    await contenedor.deleteById(2)
+    //await contenedor.deleteAll()
+}
 
-    async getAll() {
-        try {
-            let lista = await fs.promises.readFile(this.archivo, "utf-8")
-            //fs.promises.readFile(this.archivo, "utf-8")
-                .then(data => {
-                    let info = JSON.parse(data)
-                    return info
-            })
-            .then(
-                res => res
-            )
-            return lista
-        }
-        catch (err) {
-            return []
-        }
-    }
-
-    async deleteById(num) {
-        try {
-            fs.promises.readFile(this.archivo, "utf-8")
-                .then(data => {
-                    let info = JSON.parse(data)
-                    fs.writeFile(this.archivo, JSON.stringify(info.filter(producto => producto.id != num), null, 2), (err) => {
-                        if (err) {
-                            throw new Error(err);
-                        }
-                    })
-                })
-        } catch (error) {
-            console.log("Error al borra el archivo" + error);
-        }
-    }
-};
-
-async function ejecutar(){
-
-const c1 = new Contenedor("productos.txt");
-
-let id = await c1.save({title: "galletas", price: 200, thumbnail: "https://t1.rg.ltmcdn.com/es/posts/6/2/9/galletas_con_chispas_de_chocolate_caseras_35926_orig.jpg"})
-await c1.save({title: "tortillas", price: 400, thumbnail: "https://t1.rg.ltmcdn.com/es/posts/6/2/9/galletas_con_chispas_de_chocolate_caseras_35926_orig.jpg"})
-await c1.save({title: "facturas", price: 100, thumbnail: "https://www.gatodumas.com.ar/media/k2/items/cache/3b3137a08b8bf22969ae75f6bfeed67f_XL.jpg"})
-await c1.save({title: "galletas", price: 200, thumbnail: "https://t1.rg.ltmcdn.com/es/posts/6/2/9/galletas_con_chispas_de_chocolate_caseras_35926_orig.jpg"})
-
-
-console.log(await c1.getAll())
-
-await c1.deleteById(id)
-
-} 
-
-ejecutar()
+main()
