@@ -70,17 +70,17 @@ const main = async () => {
     await contenedor.save({
         title: 'Galletas',
         price: 350.50,
-        thumbnail: ''
+        thumbnail: 'https://d320djwtwnl5uo.cloudfront.net/recetas/cover_c2qdn6zjl4_iStock-497833586_galletas_garbanzo_choco.jpg'
     })
     await contenedor.save({
         title: 'Pan',
         price: 250.50,
-        thumbnail: ''
+        thumbnail: 'https://thumbs.dreamstime.com/b/pan-largo-del-pan-22826883.jpg'
     })
     await contenedor.save({
         title: 'Tortillas',
         price: 150.50,
-        thumbnail: ''
+        thumbnail: 'https://ultracongeladoscanalsenses.com.ar/wp-content/uploads/2020/01/TortillasTucumanas-copia.jpg'
     })    
 
     const id = 3
