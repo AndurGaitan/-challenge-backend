@@ -2,6 +2,8 @@ const express = require('express')
 
 const app = express()
 
+const fs = require('fs')
+
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
@@ -70,15 +72,25 @@ class Contenedor{
     }
 }
 
-const contenedor = new Contenedor
+const contenedor = new Contenedor("./productos.txt")
 
-app.get('./api/productos', async (req, res) => {
+app.get('/api/productos', async (req, res) => {
     const result = await contenedor.getAll()
 
     res.send(result)
 })
 
-app.post('./api/productos', async (req, res) => {
+app.get('/api/productoRandom', async (req, res) => {
+    const randomNumber = parseInt((Math.random() * 7) + 1)
+    const randomRecord = await contenedor.getById(randomNumber)
+    try{
+        res.send(randomRecord)
+    } catch {
+        res.send("record not found")
+    }
+})
+
+app.post('/api/productos', async (req, res) => {
     const { newProduct } = req.body
 
     const result = await contenedor.save(newProduct)
@@ -86,7 +98,8 @@ app.post('./api/productos', async (req, res) => {
     res.send(result)
 })
 
-app.listen(8080, () => {
+const server = app.listen(8080, () => {
     console.log('This server is listening')
 })
 
+server.on("err",error => console.log("bug found"))
