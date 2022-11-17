@@ -90,6 +90,18 @@ app.get('/api/productoRandom', async (req, res) => {
     }
 })
 
+app.get('/api/productoRandom', async (req, res) => {
+    const productos = await contenedor.getAll()
+
+    const randomRecord = productos[Math.floor(Math.random() * productos.length)]
+     
+     try{
+        res.send(randomRecord)
+     } catch {
+         res.send("record not found")
+     }
+ })
+
 app.post('/api/productos', async (req, res) => {
     const { newProduct } = req.body
 
