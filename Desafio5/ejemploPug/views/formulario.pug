@@ -1,0 +1,45 @@
+extends index  
+
+
+block renderizar 
+  h1(style="color:blue;") Ingrese datos de producto
+  br
+
+  form(action="/productos" method="post")
+
+    div(class="form-group")
+      label(for="title") <b>Title</b>
+      input(id="title" class="form-control" type="text" name="title")
+    
+
+    div(class="form-group")
+      label(for="price") <b>Price</b>
+      input(id="price" class="form-control" type="number" name="price")
+
+    
+    div(class="form-group")
+      label(for="image") <b>Image</b>
+      input(id="image" class="form-control" type="text" name="image")
+    
+
+    button(class="btn btn-success mt-3 mb-5") Agregar
+
+    - const leyenda = "No se encontraron productos"
+    h2(style="color:crimson") Productos
+
+      if productos.length > 0
+        div(class="table-responsive")
+          table(class="table table-Dark")
+            tr(style="color: yellow;")
+              th Title
+              th Price 
+              th Image
+            
+            each producto in productos
+              tr 
+                td!=producto.title 
+                td!=producto.price 
+                td 
+                  img(style="width: 60px;" src="!=producto.image" )
+      else 
+        h3(class="alert alert-danger")=leyenda   
