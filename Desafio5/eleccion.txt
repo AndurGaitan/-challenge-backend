@@ -1,0 +1,1 @@
+Me inclinaria por utilizar el motor de plantilla ejs ya que me parece mucho mas intuitivo por utilizar la sintaxis de JS.

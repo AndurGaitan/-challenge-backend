@@ -4,22 +4,26 @@ const handlebars = require('express-handlebars')
 
 const app = express()
 
-const productos = []
 
 app.engine('handlebars', handlebars.engine())
 
-app.use(express.urlencoded({extended:true}))
+app.set('views', './views')
+
+app.set('view engine', 'handlebars')
 
 app.use(express.json())
+app.use(express.urlencoded({extended:true}))
 
-app.set('view', '/view')
+const productos = []
 
-app.set('view engine', 'ejs')
 
 //GET   
+
 app.get('/', (req, res) => {
-    res.render('inicio', {productos})    
+    res.render('datos', {productos})    
 })
+
+//POST
 
 app.post('/productos', (req, res) => {
     productos.push(req.body)
