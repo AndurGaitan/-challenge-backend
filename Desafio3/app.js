@@ -81,16 +81,6 @@ app.get('/api/productos', async (req, res) => {
 })
 
 app.get('/api/productoRandom', async (req, res) => {
-    const randomNumber = parseInt((Math.random() * 7) + 1)
-    const randomRecord = await contenedor.getById(randomNumber)
-    try{
-        res.send(randomRecord)
-    } catch {
-        res.send("record not found")
-    }
-})
-
-app.get('/api/productoRandom', async (req, res) => {
     const productos = await contenedor.getAll()
 
     const randomRecord = productos[Math.floor(Math.random() * productos.length)]
