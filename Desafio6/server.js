@@ -3,11 +3,11 @@ const {Server} = require('socket.io');
 const path =  require('path');
 
 
-const contenedorProd = require('./controllers/contenedorProductos');
+const contenedorProductos = require('./controllers/contenedorProductos');
 const contenedorChat = require('./controllers/contenedorChat')
 
 
-let containerProd = new contenedorProd('productos.txt');
+let prodContainer = new contenedorProductos('productos.txt');
 let chatContainer = new contenedorChat('chat.txt');
 
 const viewsFolder = path.join(__dirname,"views");
@@ -41,7 +41,7 @@ io.on("connection", async(socket)=>{
     socket.emit("messagesChat", chat);
 
     //Products
-    const products = await containerProd.getAll();
+    const products = await prodContainer.getAll();
     socket.emit("products", products);
 
     //Recibir msg
@@ -54,9 +54,9 @@ io.on("connection", async(socket)=>{
 
     //Recibir Producto
     socket.on("newProduct", async(data)=>{
-        await containerProd.save(data)
+        await prodContainer.save(data)
         //Enviar productos actualizados
-        const products = await containerProd.getAll();
+        const products = await prodContainer.getAll();
         io.sockets.emit("products", products)
     })
 })
