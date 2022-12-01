@@ -1,46 +1,66 @@
-const express = require('express')
-const { Server: HttpServer } = require('http')
-const { Server: IOServer } = require('socket.io')
-
-const app = express()
-const httpServer = HttpServer(app)
-const io = new IOServer(httpServer)
+const express = require('express');
+const {Server} = require('socket.io');
+const path =  require('path');
 
 
-const productos = []
-
-app.use(express.static('./views'))
-
-app.set('view engine', 'ejs')
+const contenedorProd = require('./controllers/contenedorProductos');
+const contenedorChat = require('./controllers/contenedorChat')
 
 
+let containerProd = new contenedorProd('productos.txt');
+let chatContainer = new contenedorChat('chat.txt');
 
-const mensajes = []
+const viewsFolder = path.join(__dirname,"views");
 
-io.on('connection', socket =>{
-    console.log('Un cliente se ha conectado')
+const app = express();
 
-    socket.emit('messages', mensajes)
+const PORT = process.env.PORT || 8080;
 
-    socket.on('new-message', data => {
-        mensajes.push(data)
+const server = app.listen(PORT, ()=>console.log(`Server Port ${PORT}`));
 
-        io.sockets.emit('messages', mensajes)
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
+app.use(express.static(__dirname+"/public"))
+
+
+app.set("views", viewsFolder);
+
+app.set("view engine", "ejs");
+
+//Websocket
+
+//Config websocket
+const io = new Server(server);
+
+
+//Detectar cada socket de un cliente que se conecte
+io.on("connection", async(socket)=>{
+    console.log("Nuevo cliente conectado");
+    //Chat
+    const chat = await chatContainer.getAll();
+    socket.emit("messagesChat", chat);
+
+    //Products
+    const products = await containerProd.getAll();
+    socket.emit("products", products);
+
+    //Recibir msg
+    socket.on("newMsg", async(data)=>{
+        await chatContainer.save(data)
+        //enviar los mensajes a todos los socket conecta2
+        const chat = await chatContainer.getAll();
+        io.sockets.emit("messagesChat", chat)
+    })
+
+    //Recibir Producto
+    socket.on("newProduct", async(data)=>{
+        await containerProd.save(data)
+        //Enviar productos actualizados
+        const products = await containerProd.getAll();
+        io.sockets.emit("products", products)
     })
 })
 
-//GET
-app.get('/', (req, res) => {
-    res.render('inicio', {productos})    
-})
-
-app.post('/productos', (req, res) => {
-    productos.push(req.body)
-    res.redirect('/')
-}) 
-
-const PORT = 8080
-
-httpServer.listen(PORT, () => {
-    console.log(`Servidor escuchando en el puerto ${PORT}`)
+app.get('/', (req,res) => {
+    res.render("home")
 })

@@ -7,7 +7,7 @@ const fs = require('fs')
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
-class Contenedor{
+module.exports = class Contenedor{
     constructor(file){
         this.file = file
     }
