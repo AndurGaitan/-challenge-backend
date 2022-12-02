@@ -19,10 +19,10 @@ const productsContainer = document.getElementById("productsContainer");
 
 socketClient.on("products", async(data)=>{
     console.log(data)
-    const templateTable = await fetch("./templates/table.ejs");
+    const templateTable = await fetch("./templates/table.handlebars");
     //Se convierte a formato del template
     const templateFormat = await templateTable.text();
-    const template = ejs.compile(templateFormat); 
+    const template = Handlebars.compile(templateFormat);
 
     //Generar HTML con template y datos
     const html = template({products: data})

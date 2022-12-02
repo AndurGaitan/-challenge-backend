@@ -1,0 +1,8 @@
+[
+  {
+    "title": "Quake III Arena",
+    "price": 9.99,
+    "thumbnail": "https://upload.wikimedia.org/wikipedia/en/a/a1/Quake3Title.jpg",
+    "id": 1
+  }
+]

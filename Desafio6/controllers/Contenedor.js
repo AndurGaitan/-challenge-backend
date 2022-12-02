@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path =  require('path');
 
-class ContenedorProductos {
+class Contenedor {
 
     constructor(filename){
         this.filename = path.join(__dirname,"..", `files/${filename}`);
@@ -95,4 +95,4 @@ class ContenedorProductos {
     }
 }
 
-module.exports = ContenedorProductos;
+module.exports = Contenedor;
