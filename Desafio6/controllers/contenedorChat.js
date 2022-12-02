@@ -4,7 +4,7 @@ const path =  require('path');
 class ContenedorChat {
 
     constructor(filename){
-        this.filename = path.join(__dirname,"..", `files/${filename}`);
+        this.filename = path.join(__dirname,"..", `db/${filename}`);
     }
 
     async save(message){

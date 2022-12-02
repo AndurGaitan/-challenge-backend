@@ -4,8 +4,8 @@ const {Server} = require('socket.io');
 const path =  require('path');
 
 
-const Contenedor = require('./managers/Contenedor');
-const ContenedorChat = require('./managers/ContenedorChat')
+const Contenedor = require('./controllers/Contenedor');
+const ContenedorChat = require('./controllers/ContenedorChat')
 
 let container = new Contenedor('productos.txt');
 let chatContainer = new ContenedorChat('chat.txt');
