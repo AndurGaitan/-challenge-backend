@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { cartController } from "../controller/cartControler.js";
+import { cartController } from "../controller/cartController.js";
 const cartRouter = Router();
 
 cartRouter.post('/', cartController.saveCart);                                    // Creamos un carrito
