@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { productController } from '../controller/productController.js';
+import { productController } from '../controller/productController.js.js';
 const productsRouter = Router();
 
 productsRouter.get('/:id?', productController.getProductById);              // Traemos todos los productos o un producto desde su ID
