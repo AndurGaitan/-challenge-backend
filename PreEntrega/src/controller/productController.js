@@ -1,6 +1,8 @@
 import fs from 'fs';
 import path from 'path'
-
+import { fileURLToPath } from 'url'
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const databaseProducts = path.join(__dirname, '../db/databaseProducts.txt')
 const administrador = true;
 

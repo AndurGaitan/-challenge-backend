@@ -1,8 +1,11 @@
 import fs from 'fs';
 import path from 'path';
-const databaseCart = path.join(__dirname, '../db/databaseCart.txt');
-const databaseProducts = path.join(__dirname, '../db/databaseProducts.txt');
+import { fileURLToPath } from 'url';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const databaseCart = path.join(__dirname, '../db/databaseCart.txt');
+const databaseProducts = path.join(__dirname, '../db/databaseProducts');
 const readFile = async(file) => {
     try {
         const data = await fs.promises.readFile(file, 'utf-8', (err, data) =>{
