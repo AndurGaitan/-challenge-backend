@@ -1,14 +1,17 @@
 [
   {
     "id": 1,
-    "user": "fredy",
-    "timestamp": "3/11/2022, 21:59:10",
-    "message": "hola"
+    "timestamp": 1670277449808,
+    "products": []
   },
   {
     "id": 2,
-    "user": "fredy",
-    "timestamp": "3/11/2022, 21:59:14",
-    "message": "comoe stas"
+    "timestamp": 1670277452156,
+    "products": []
+  },
+  {
+    "id": 3,
+    "timestamp": 1670277453166,
+    "products": []
   }
 ]

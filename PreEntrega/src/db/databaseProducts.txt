@@ -1,14 +1,56 @@
 [
   {
-    "id": 1,
-    "title": "camisa",
-    "price": "87",
-    "thumbnail": "https://http2.mlstatic.com/D_NQ_NP_990732-MCO31098832042_062019-W.jpg"
+    "name": "ltd",
+    "price": "4848",
+    "description": "Para tocar Metalcore",
+    "code": "666",
+    "stock": "5",
+    "imgage": "url",
+    "id": 1
   },
   {
-    "id": 3,
-    "title": "maleta",
-    "price": 300,
-    "thumbnail": "https://panamericana.vteximg.com.br/arquivos/ids/261725-1080-1080/cuaderno-5-materias-argollado-incolors-de-hojas-cuadriculadas-7707668554700.jpg?v=636383267550730000"
+    "name": "ESP",
+    "price": "5986",
+    "description": "Rock",
+    "code": "666",
+    "stock": "5",
+    "imgage": "url",
+    "id": 2
+  },
+  {
+    "name": "Gibson",
+    "price": "2598",
+    "description": "Heavy Metal",
+    "code": "666",
+    "stock": "3",
+    "imgage": "url",
+    "id": 3
+  },
+  {
+    "name": "Jackson",
+    "price": "258789",
+    "description": "Death Metal",
+    "code": "666",
+    "stock": "5",
+    "imgage": "url",
+    "id": 4
+  },
+  {
+    "name": "Caparison",
+    "price": "4848",
+    "description": "Mathcore",
+    "code": "666",
+    "stock": "8",
+    "imgage": "url",
+    "id": 5
+  },
+  {
+    "name": "Fender",
+    "price": "2256",
+    "description": "Classic Rock",
+    "code": "666",
+    "stock": "5",
+    "imgage": "url",
+    "id": 6
   }
 ]
