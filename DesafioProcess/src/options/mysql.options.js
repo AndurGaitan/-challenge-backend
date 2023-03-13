@@ -8,6 +8,7 @@ export const options = {
         host: process.env.IP,
         user: process.env.USER,
         password: '',
-        database: process.env.DATABASE
+        database: process.env.DATABASE,
+        port:'8080'
     }
 }

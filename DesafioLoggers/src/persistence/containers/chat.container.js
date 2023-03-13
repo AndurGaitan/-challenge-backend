@@ -1,14 +1,14 @@
 import * as fs from 'fs';
-import { validator } from './validator.js';
-import { messagesSchema } from './Chat.entity.js';
+import { validator } from '../validator.js';
+import { messagesSchema } from '../chat.entity.js';
 import { normalize } from 'normalizr';
 
 
-export class Chat extends validator {
+export class ChatContainer extends validator {
 
     constructor(fileName) {
         super();
-        this.pathFile = `./src/db/${fileName}.txt`;
+        this.pathFile = `./src/data/${fileName}.txt`;
     }
 
     /**

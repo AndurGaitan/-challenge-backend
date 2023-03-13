@@ -1,12 +1,12 @@
 import express from 'express';
 import passport from "passport";
-import { renderLogin, renderFailLogin } from '../controllers/session.controller.js';
+import usersController from '../controllers/users.controller.js';
 
 const LOGIN_ROUTER = express.Router();
 
 LOGIN_ROUTER
-    .get("/", renderLogin)
+    .get("/", usersController.renderLogin)
     .post("/", passport.authenticate('login', { failureRedirect: "/login/error", successRedirect: "/" }))
-    .get("/error", renderFailLogin);
+    .get("/error", usersController.renderFailLogin);
 
 export { LOGIN_ROUTER }

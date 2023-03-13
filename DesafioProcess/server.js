@@ -66,6 +66,7 @@ app.use(
     })
 );
 
+
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(clearCache);
@@ -108,7 +109,7 @@ app.use('/api', UTIL_ROUTER );
 io.on("connection", async (socket) => {
     let messages = await toSocketMessages();
     let products = await toSocketProducts();
-
+    console.log('estos son los mensajes' + messages)
     socket.emit("products", products);
 
     socket.on("newProduct", async (data) => {

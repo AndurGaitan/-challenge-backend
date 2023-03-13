@@ -7,22 +7,21 @@ import session from "express-session";
 import MongoStore from "connect-mongo";
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
-import { loginUser, signupUser, serializeUser, deserializeUser } from "./src/models/users.js";
-import { toSocketMessages, insertMessage } from './src/controllers/messages.controller.js';
-import { toSocketProducts, insertProduct } from './src/controllers/products.controller.js';
+import userController from "./src/controllers/users.controller.js";
+import messagesController from './src/controllers/messages.controller.js';
+import productsController from './src/controllers/products.controller.js';
+import appController from './src/controllers/app.controller.js';
 import { auth } from './src/utils/authentication.js';
-import { destroyCredentials } from './src/controllers/session.controller.js';
+import compression from 'compression'
 import { clearCache } from './src/utils/clearCache.js';
-import { renderSystemInfo, renderRoot } from './src/controllers/app.controller.js';
+import { logger } from './src/utils/logger.js';
 import { UTIL_ROUTER } from './src/routers/util.router.js';
 import { SIGNUP_ROUTER } from './src/routers/signup.router.js';
 import { LOGIN_ROUTER } from './src/routers/login.router.js';
-import { logger } from './src/utils/logger.js';
-import compression from 'compression'
 
 dotenv.config();
 
-export function startServer(port) {
+export const startServer = (port) => {
     const app = express();
     const httpServer = createServer(app);
     const io = new Server(httpServer);
@@ -59,27 +58,27 @@ export function startServer(port) {
     app.use(passport.session());
     app.use(clearCache);
 
-    const loginStrat = new LocalStrategy(loginUser);
-    const signupStrat = new LocalStrategy(signupUser);
+    const loginStrat = new LocalStrategy(userController.loginUser);
+    const signupStrat = new LocalStrategy(userController.signupUser);
 
     passport.use('login', loginStrat);
     passport.use('signup', signupStrat);
-    passport.serializeUser(serializeUser);
-    passport.deserializeUser(deserializeUser);
+    passport.serializeUser(userController.serializeUser);
+    passport.deserializeUser(userController.deserializeUser);
 
     app.engine('handlebars', handlebars.engine());
     app.set('views', './views');
     app.set('view engine', 'handlebars');
 
-    app.get("/", auth, renderRoot)
-        .get('/logout', destroyCredentials)
-        .get('/infoGzip', compression(), renderSystemInfo)
-        .get('/info', renderSystemInfo)
-
 
     app.use('/api', UTIL_ROUTER);
     app.use('/signup', SIGNUP_ROUTER);
     app.use('/login', LOGIN_ROUTER);
+
+    app.get("/", auth, appController.renderRoot)
+        .get('/logout', userController.destroyCredentials)
+        .get('/infoGzip', compression(), appController.renderSystemInfo)
+        .get('/info', appController.renderSystemInfo)
 
     app.get('*', (req, res) => {
         const { url, method } = req
@@ -89,19 +88,19 @@ export function startServer(port) {
     })
 
     io.on("connection", async (socket) => {
-        let messages = await toSocketMessages();
-        let products = await toSocketProducts();
+        let messages = await messagesController.toSocketMessages();
+        let products = await productsController.toSocketProducts();
         socket.emit("products", products);
         socket.on("newProduct", async (data) => {
-            await insertProduct(data);
-            products = await toSocketProducts();
+            await productsController.insertProduct(data);
+            products = await productsController.toSocketProducts();
             io.sockets.emit("products", products);
         });
 
         socket.emit("messages", messages);
         socket.on("newMessage", async (data) => {
-            await insertMessage(data);
-            messages = await toSocketMessages();
+            await messagesController.insertMessage(data);
+            messages = await messagesController.toSocketMessages();
             io.sockets.emit("messages", messages);
         });
     });

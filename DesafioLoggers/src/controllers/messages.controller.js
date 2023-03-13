@@ -1,18 +1,14 @@
-import { Chat } from "../models/Chat.model.js";
+import messagesService from '../services/messages.service.js'
 
-const bd = new Chat('messages');
-
-
-async function toSocketMessages(){
-    return await bd.getNormalized();
+const toSocketMessages = async () => {
+    return await messagesService.getNormalized();
 }
 
-async function insertMessage(message){
-    await bd.save(message);
+const insertMessage =  async (message) => {
+    await messagesService.insertMessage(message);
 }
 
-
-export {
+export default {
     toSocketMessages,
     insertMessage
 };

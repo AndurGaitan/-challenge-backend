@@ -1,11 +1,11 @@
 import express from 'express';
-import { fakeProducts } from "../controllers/products.controller.js";
-import { renderRandomNumbers } from "../controllers/app.controller.js";
+import productsController from "../controllers/products.controller.js";
+import appController from "../controllers/app.controller.js";
 
 const UTIL_ROUTER = express.Router();
 
 UTIL_ROUTER
-    .get("/randoms", renderRandomNumbers)
-    .get("/productos-test", fakeProducts)
+    .get("/randoms", appController.renderRandomNumbers)
+    .get("/productos-test", productsController.fakeProducts)
 
 export { UTIL_ROUTER }

@@ -1,7 +1,7 @@
 import knex from 'knex'
-import { logger } from "../utils/logger.js";
+import { logger } from "../../utils/logger.js";
 
-export class DataBase {
+export class productsContainer {
 
     constructor(options, table) {
         this.knex = knex(options)

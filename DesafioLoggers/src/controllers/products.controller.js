@@ -1,37 +1,27 @@
-import { DataBase } from "../models/products.model.js";
-import { options } from "../options/mysql.options.js";
-import { fakeProds } from "../db/fakeData.js";
+import productsService from "../services/products.service.js";
+import { fakeProds } from "../utils/fakeData.js";
 import { logger} from "../utils/logger.js";
 
 
-const bd = new DataBase(options, 'products');
-
-bd.createTable();
-
-async function toSocketProducts() {
-    return await bd.getAll();
+const toSocketProducts =  async () => {
+    return await productsService.toSocketProducts();
 }
 
-async function insertProduct(product) {
-    await bd.save(product);
+const insertProduct = async (product) => {
+    await productsService.insertProduct(product);
 }
 
-async function fakeProducts(req, res) {
+const fakeProducts = async (req, res) => {
     const { url, method } = req
     logger.info(`Access to route: ${url} method: ${method}`)
-    let productos = [];
-    let cant = req.query.cant || 5;
-    for (let i = 0; i < cant; i++) {
-        let prod = fakeProds();
-        productos.push(prod);
-    }
+    let productos = productsService.fakeProducts(req);
     let exist = productos.length > 0 ;
-    if (!exist) errorLogger.warn(`Error generating mocking data`);
+    if (!exist) logger.warn(`Error generating mocking data`);
     res.render("fake", { products: productos, listExists: exist , script: 'fake'});
 }
 
 
-export {
+export default{
     toSocketProducts,
     insertProduct,
     fakeProducts
