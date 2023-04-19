@@ -1,6 +1,6 @@
 import { productsContainer } from "../persistence/containers/products.container.js";
 import { options } from "../options/mysql.options.js";
-import { fakeProds } from "../utils/fakeData.js";
+import { fakeProds } from "../utils/application/fakeData.js";
 
 
 const bd = new productsContainer(options, 'products');

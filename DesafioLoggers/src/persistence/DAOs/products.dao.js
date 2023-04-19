@@ -1,7 +1,8 @@
 import knex from 'knex'
-import { logger } from "../../utils/logger.js";
+import { transformToDTO } from '../DTOs/product.dto.js';
+import { logger } from "../../utils/loggers/logger.js";
 
-export class productsContainer {
+export class ProductsDao {
 
     constructor(options, table) {
         this.knex = knex(options)
@@ -33,7 +34,8 @@ export class productsContainer {
      */
     getAll = async () => {
         try {
-            return await this.knex.select('*').from(this.table);
+            let products = await this.knex.select('*').from(this.table);
+            return transformToDTO(products);
         } catch (error) {
             logger.error(`Error getting products: ${error}`)
         }

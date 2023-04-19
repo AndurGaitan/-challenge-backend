@@ -1,4 +1,4 @@
-import { getSystemInfo } from "../utils/getSysteminfo.js";
+import { getSystemInfo } from "../utils/application/getSysteminfo.js";
 
 const getSystemInformation = () => {
     return getSystemInfo();

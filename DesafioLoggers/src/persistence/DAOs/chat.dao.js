@@ -2,9 +2,10 @@ import * as fs from 'fs';
 import { validator } from '../validator.js';
 import { messagesSchema } from '../chat.entity.js';
 import { normalize } from 'normalizr';
+import { transformToDTO } from '../DTOs/chat.dto.js';
 
 
-export class ChatContainer extends validator {
+export class ChatDao extends validator {
 
     constructor(fileName) {
         super();
@@ -19,7 +20,7 @@ export class ChatContainer extends validator {
     async getAll(toSave = false) {
         const issetFile = await this.issetFile(this.pathFile);
         if (!issetFile.error) {
-            return issetFile.messages.length > 0 ? issetFile.messages : (toSave ? [] : {
+            return issetFile.messages.length > 0 ? transformToDTO(issetFile.messages) : (toSave ? [] : {
                 error: 1,
                 message: "No messages stored"
             });

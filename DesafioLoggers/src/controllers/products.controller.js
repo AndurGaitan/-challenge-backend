@@ -1,5 +1,5 @@
 import productsService from "../services/products.service.js";
-import { fakeProds } from "../utils/fakeData.js";
+import { fakeProds } from "../utils/application/fakeData.js";
 import { logger} from "../utils/logger.js";
 
 

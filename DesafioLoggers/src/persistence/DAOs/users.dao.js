@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 
-export class userContainer {
+export class UserDao{
 
     constructor(model) {
         this.model = model
